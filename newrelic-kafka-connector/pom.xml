@@ -4,7 +4,7 @@
 
     <groupId>com.newrelic.telemetry</groupId>
     <artifactId>newrelic-kafka-connector</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Kafka-connect-new-relic</name>
@@ -134,9 +134,7 @@
                             <ownerUrl>https://newrelic.com/</ownerUrl>
                             <ownerLogo>logos/newrelic.png</ownerLogo>
 
-                            <dockerNamespace>confluentinc</dockerNamespace>
-                            <dockerName>cp-kafka-connect</dockerName>
-                            <dockerTag>${project.version}</dockerTag>
+
                             <licenses>
                                 <license>
                                     <name>Apache License, Version 2.0</name>
