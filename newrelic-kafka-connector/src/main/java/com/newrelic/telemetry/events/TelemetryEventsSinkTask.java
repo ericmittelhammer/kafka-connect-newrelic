@@ -79,9 +79,11 @@ public class TelemetryEventsSinkTask extends SinkTask {
 
                 while (retriedCount++ < retries - 1) {
                     try {
-                        if(eventBatch==null)
-                            eventBatch = eventBuffer.createBatch();
-                        sendToNewRelic();
+
+			// if(eventBatch==null)
+                        eventBatch = eventBuffer.createBatch();
+
+			sendToNewRelic();
                         break;
                     }  catch(RetriableException re) {
                         log.error("Retrying for "+retriedCount+" time");
