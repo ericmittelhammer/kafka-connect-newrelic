@@ -26,6 +26,12 @@ public class TelemetrySinkConnectorConfig extends AbstractConfig {
     public static final String TIMEOUT_SECONDS = "nr.timeout";
     private static final String TIMEOUT_SECONDS_DOC = "Timeout for API calls in seconds. By default, this is set to 2 seconds";
 
+    public static final String VALUE_CONVERTER_SCHEMA_REGISTRY_URL = "value.converter.schema.registry.url";
+    private static final String VALUE_CONVERTER_SCHEMA_REGISTRY_URL_DOC = "Location of the schema registry";
+
+    public static final String VALUE_CONVERTER_SCHEMAS_ENABLE = "value.converter.schemas.enable";
+    private static final String VALUE_CONVERTER_SCHEMAS_ENABLE_DOC = "set to false if inbound JSON is not carrying a schema";
+
     public final boolean useRecordTimestamp;
 
     public TelemetrySinkConnectorConfig(ConfigDef config, Map<String, String> parsedConfig) {
@@ -43,7 +49,9 @@ public class TelemetrySinkConnectorConfig extends AbstractConfig {
                 .define(USE_RECORD_TIMESTAMP, ConfigDef.Type.BOOLEAN, true, ConfigDef.Importance.MEDIUM, USE_RECORD_TIMESTAMP_DOC)
                 .define(TIMEOUT_SECONDS, Type.INT, 2, Importance.LOW, TIMEOUT_SECONDS_DOC)
                 .define(MAX_RETRIES, Type.INT, 5, Importance.LOW, RETRIES_DOC)
-                .define(RETRY_INTERVAL_MS, Type.LONG, 1000, Importance.LOW, RETRY_INTERVAL_MS_DOC);
+                .define(RETRY_INTERVAL_MS, Type.LONG, 1000, Importance.LOW, RETRY_INTERVAL_MS_DOC)
+                .define(VALUE_CONVERTER_SCHEMA_REGISTRY_URL, Type.STRING, "http://localhost:8081", Importance.LOW, VALUE_CONVERTER_SCHEMA_REGISTRY_URL_DOC)
+                .define(VALUE_CONVERTER_SCHEMAS_ENABLE, Type.BOOLEAN, true, Importance.LOW, VALUE_CONVERTER_SCHEMAS_ENABLE_DOC);
         return configDef;
     }
 
