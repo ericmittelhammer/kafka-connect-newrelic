@@ -24,7 +24,7 @@ jobs:
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
       - name: "Auto Release"
-      - uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ steps.vars.outputs.short_ref }}-${{ github.run_number }}"
