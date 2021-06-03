@@ -1,0 +1,32 @@
+---
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - "*-rc*"
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build with Maven
+        working-directory: newrelic-kafka-connector
+        run: mvn -B clean package --file pom.xml
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+      - name: "Auto Release"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ steps.vars.outputs.short_ref }}-${{ github.run_number }}"
+          files: |
+            target/components/packages/*.zip
