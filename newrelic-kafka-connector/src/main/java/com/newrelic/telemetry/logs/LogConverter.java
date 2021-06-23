@@ -17,7 +17,10 @@ import java.util.stream.*;
  */
 public class LogConverter {
 
+    // we can accept either "message" or "log" for the primary log message
     public static final String LOG_MESSAGE = "message";
+    public static final String LOG_MESSAGE_LOG = "log";
+
     public static final String TIMESTAMP_ATTRIBUTE = "timestamp";
 
     private static Log withSchema(SinkRecord record) {
@@ -30,14 +33,19 @@ public class LogConverter {
 
         Schema schema = record.valueSchema();
 
-        String logMessage = "";
+        String logMessage = null;
         Optional<Field> logMessageField = schema.fields().stream().filter(f -> f.name().equals(LOG_MESSAGE)).findAny();
-        if (!logMessageField.isPresent()) {
-            throw new DataException(String.format("All records must contain a '%s' field", LOG_MESSAGE));
-        } else {
+        if (logMessageField.isPresent()) {
             logMessage = value.getString(LOG_MESSAGE);
+        } else {
+            Optional<Field> logMessageField_log = schema.fields().stream().filter(f -> f.name().equals(LOG_MESSAGE_LOG)).findAny();
+            if (logMessageField_log.isPresent()) {
+                logMessage = value.getString(LOG_MESSAGE_LOG);
+            }
         }
-
+        if (null == logMessage){
+            throw new DataException(String.format("All records must contain a field of either %s or %s", LOG_MESSAGE, LOG_MESSAGE_LOG));
+        }
         Attributes attributes = new Attributes();
 
         // add fields from the record
